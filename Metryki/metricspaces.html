@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Metric spaces tester</title>
+        <script>
+            var langData = {
+                "pl":{
+                    "p1":"Jeżeli miałeś kiedyś abstrakcyjne sny o drziwnych przestrzeniach metrycznych i trójkątnych kulach, to teraz możesz je zrealizować! Ta strona rysuje kulę o promieniu 100 używając dowolnej metryki. Musisz sam sobie ją napisać w JavaScripcie. Podziałka na osi jest co 50 jednostek.",
+                    "p2":"Funkcja przyjmuje argumenty: p1, p2. Od point1 i point2. Każdy z nich jest obiektem JSON z polami <code>x</code> i <code>y</code>. Pisz tylko wnętrze funkcji, bez <code>x=function(){}</code> itd. <code> center </code> to punkt (0,0). Używaj tego obiektu zamiast punktu (0,0)!",
+                    "p3":"pamiętaj o return jako number",
+                    "p4":"Punkt środka koła. Domyślnie (0,0)"
+                },
+                "eng":{
+                    "p1":"If you have ever dreamed of abstract and weird metric spaces and a triangular circles, then you have come to the right place. Type your own distance function (in JavaScript) into the textarea and this script will draw a sphere with radius 100 using your metric. Weird things can happen. Each axis has a 50 units scale.",
+                    "p2":"Funtion takes two arguments: <code>p1, p2</code>.Each point is a JSON object with fields: <code>x</code> i <code>y</code>. Write only an inner body of the function, without <code>x=function(){}</code> etc. Use <code> center </code> to get a center point of the plane. <b> do not use (0,0)</b>",
+                    "p3":"remember about returning a number or whatever JS would treat as a number :joy:",
+                    "p4":"Coordinates of the center circle. Default is (0,0)"
+    
+                }
+            }
+            </script>
+    
+        <style>
+            #container{
+                width:80%;
+                max-width: 1920;
+                margin:auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            #codeInput{
+                display: block;
+                width:100%;
+            }
+            #submit{
+                width:100%;
+                margin-top:10px;
+            }
+            #left{
+                order:0;
+            }
+            #right{
+                order:1;
+                margin-left:10%;
+            }
+            #graph{
+                height: 100%;
+                width: 100%;
+            }
+            #plane{
+                border:1px solid black;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <section id="container">
+            <section id="left">
+            <header><h1>Metric spaces tester</h1></header>
+            <span><a class="lang-switch" data-lang="eng" href="#">eng</a> | <a class="lang-switch" data-lang="pl" href="#">pl</a></span>
+            <p class="p1">Jeżeli miałeś kiedyś abstrakcyjne sny o drziwnych przestrzeniach metrycznych i trójkątnych kulach, to teraz możesz je zrealizować! Ta strona rysuje kulę o promieniu 100 używając dowolnej metryki. Musisz sam sobie ją napisać w JavaScripcie.</p>
+            <p class="p2">Funkcja przyjmuje argumenty: p1, p2. Od point1 i point2. Każdy z nich jest obiektem JSON z polami <code>x</code> i <code>y</code>. Pisz tylko wnętrze funkcji, bez <code>x=function(){}</code> itd.</p>
+            <p><pre>
+                    //regular metrics for a cartesian plane
+                    return Math.sqrt((p1.x-p2.x)**2 + (p1.y-p2.y)**2);
+                  
+            </pre></p>
+            <p class="p3">Return a number, or at least whatever JS treats as a number xd</p>
+            <textarea id="codeInput" type="form-control" name="function">return Math.sqrt((p1.x-p2.x)**2 + (p1.y-p2.y)**2);</textarea>
+            <form class="form-inline">
+                <div class="form-group row">
+                  <p class="p4" for="x">Punkt środka koła. Domyślnie (0,0)</p>
+                 ( <input type="number" id="x" class="form-control col-1" placeholder="x" value="0">
+                  <input type="number" id="y" class="form-control col-1" placeholder="y" value="0">
+                 )
+                </div>
+              </form>
+            <input id="submit" type="submit" value="ok!" class="btn btn-primary">
+        </section>
+        <section id="right">
+            <figure id="graph">
+                    <canvas id="plane" width="500" height="500">
+
+                    </canvas>
+            </figure>
+        </section>
+        </section>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <script src="codebehind.js"></script>
+    </body>
+</html>

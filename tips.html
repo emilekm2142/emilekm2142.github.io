@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Emil Markiewicz</title>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+        <style>
+        .top-header{
+            text-align: center;
+            }
+            .container{
+               
+            max-width: 1920px;
+            width:80%;
+            margin:auto;
+            
+            }
+			article{
+				margin-top:2em;
+			}
+            </style>
+    </head>
+    <body>
+        <section class="container">
+            <header class="top-header"><h1>Tricks and tips</h1></header>
+            <article>
+            <h2>How to use PyQt5 with QML and Python 3?</h2>
+            <code>pip3 install PyQt5</code>
+            <code> <pre>
+from PyQt5.QtCore import QUrl, QObject, QMetaObject,Qt,pyqtSlot, QThread,pyqtSignal
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtQuick import QQuickView
+appObject = QApplication(sys.argv)
+appView = QQuickView()
+appView.setSource(QUrl("main.qml"))
+appView.show()
+root = appView.rootObject().findChild(object, "root") #supply the name of the root element. Literally `name` attribute. IDs do not work with python 
+root.anySignalName.connect(lambda: print("Signal was triggered"))
+            </pre></code>
+</article>
+<article>
+    <h2>How to style Angular Material?</h2>
+    You cannot override styles that are written in a web component. 
+    To hack it, use `/deep/` (deprecated!) or `>>>` (also deprecated)
+    <code>
+        <pre>
+    body /deep/ mat-card{
+        background-color:pink;
+        border-radius:0px;
+    }</pre>
+    </code>
+    Check in dev tools for individual selectors of different components. Works in webkit as of september 2018.
+</article>
+
+<article>
+    <h2>What to do, when pickle.dumps gives a recursion error?</h2>
+    Serialize a dictionary instead:
+    <code>
+        pickle.dumps(vars(object))
+    </code>
+    
+</article>
+<article>
+    <h2>How to generate random ID in python</h2>
+   
+    <code><pre>
+        def random_hash():
+            return binascii.hexlify(os.urandom(32)).decode('utf-8')
+    </pre></code>
+</article>
+<article>
+    <h2>How to find element by its CSS selectors in beautifulsoup?</h2>
+   
+    <code>
+        elem = soup.select("#example")[0]
+    </code>
+</article>
+
+<article>
+    <h2>How to disable WiFi on ESP8266?</h2>
+   
+    <code>
+	    #include <ESP8266WiFi.h>
+        WiFi.mode(WIFI_OFF);
+		WiFi.forceSleepBegin();
+		delay(1000);
+    </code>
+</article>
+
+<article>
+        <h2>Awful oneliners</h2>
+       <pre>
+[()=>{}, ()=>{}][Number(boolean_value)]()
+       </pre>
+       instead of 
+       <pre>
+if (boolean_value){
+    
+}else{
+}
+       </pre>
+       or <pre>
+{true:()=>{}, false:()=>{}}[boolean_value]()
+       </pre>
+    </article>
+        </section>
+    </body>
+</html>
