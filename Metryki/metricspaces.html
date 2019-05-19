@@ -78,7 +78,18 @@
                  )
                 </div>
               </form>
-            <input id="submit" type="submit" value="ok!" class="btn btn-primary">
+              <div style="margin-top:10px;display:flex;width:100%;align-content:space-around;align-items: flex-start;">
+            <input style="display:block;width:40%;" id="submit-sphere" type="submit" value="Draw sphere" class="btn btn-primary">
+            <input style="margin-left:10%;display:block;width:50%;" id="submit-plane" type="submit" value="Draw plane (might take a while)" class="btn btn-primary">
+        </div>
+        <section>
+            Regular
+            <code><pre>return Math.sqrt((p1.x-p2.x)**2 + (p1.y-p2.y)**2);</pre></code>
+            Ring
+            <code><pre>return Math.abs(Math.sqrt((p1.x-p2.x)**2 + (p1.y-p2.y)**2)-100);</pre></code>
+
+
+        </section>
         </section>
         <section id="right">
             <figure id="graph">
