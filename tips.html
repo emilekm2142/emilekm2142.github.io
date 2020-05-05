@@ -104,6 +104,20 @@ if (boolean_value){
 {true:()=>{}, false:()=>{}}[boolean_value]()
        </pre>
     </article>
-        </section>
+  
+        <article>
+            <h2>How to use OpenCl ran on GPU with CUDA toolkit on windows with visual studio?</h2>
+            <p>
+                <ul>
+                    <li>Install CUDA toolkit</li>
+                    <li>Create new c++ project in VS</li>
+                    <li>Right click on project in solution explorer -> properties</li>
+                    REMEMBER TO CHANGE THE CONFIGURATION ON TOP
+                    <li> VC++ directoires: Library directoires: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\lib\x64;$(LibraryPath)    <b>plz note $(LibraryPath)</b></li>
+                    <li> C/C++: additional include directories: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include</li>
+                </ul>
+            </p>
+        </article>
+    </section>
     </body>
 </html>

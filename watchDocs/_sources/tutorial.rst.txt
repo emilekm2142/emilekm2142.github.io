@@ -1,0 +1,9 @@
+Tutorials and guides
+==================
+These tutorials are an explanatory guide to the library. After completing at least one, you could develop something cool on your own!
+
+.. toctree::
+   :maxdepth: 1
+
+   tutorial/notes
+   tutorial/stopwatch

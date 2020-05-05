@@ -13,9 +13,7 @@
 <meta property="og:url"                content="http://emil.students.wmi.amu.edu.pl" />
 <meta property="og:type"               content="website" />
 <meta property="og:title"              content="Emil Markiewicz" />
-<meta property="og:description"        content="To ja!" />
-<meta property="og:image"              content="https://i.ytimg.com/vi/K62_uVfrJsg/hqdefault.jpg" />
-        <meta charset="UTF-8">
+<meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Emil Markiewicz</title>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
@@ -29,6 +27,14 @@
             width:80%;
             margin:auto;
             
+            }
+            .sciency-list{
+                list-style-type: none;
+                display: block;
+                padding-bottom:2em;
+            }
+            .sciency-list li{
+                display: inline;
             }
             </style>
     </head>
@@ -59,16 +65,10 @@
             
             </article>
             <article class="links">
-                <h3><a href="math.html">Math tips</a></h3>
-                <h3><a href="tips.html">Programming tips</a></h3>
-                <h2>Scripts and stuff made for fun:</h2>
-                <ul>
-                    <li><a href="Metryki/metricspaces.html">Metric spaces tester</a> - write your own metric (a distance function) and see how it behaves</li>
-                    <li><a href="http://abbreviations.herokuapp.com">A multiplayer game about expanding abbrevations</a> - Node, angular</li>
-                </ul>
-               
+
+                <ul class="sciency-list"><li><a href="disparity.html">Stereo disparity using ZNCC (Depth estimation based on Zero-mean Normalized Cross Correlation)</a></li></ul>
             </article>
-			
+            
 			<article class="links">
                 <h3>Minor projects</h3>
                <ul>
@@ -80,6 +80,17 @@
             </ul>
                
             </article>
+            <article class="links">
+                <h5><a href="math.html">Math tips</a></h5>
+                <h5><a href="tips.html">Programming tips</a></h5>
+                <h3>Scripts and stuff made for fun:</h3>
+                <ul>
+                    <li><a href="Metryki/metricspaces.html">Metric spaces tester</a> - write your own metric (a distance function) and see how it behaves</li>
+                    <li><a href="http://abbreviations.herokuapp.com">A multiplayer game about expanding abbrevations</a> - Node, angular</li>
+                </ul>
+               
+            </article>
+			
 			<arcticle class="links">
                 <h3>Music videos</h3>
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/GB1_-fdaMdY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -89,7 +100,7 @@
 			<article class="links">
                 <h3>DIY Smartwatches</h3>
                <p>
-				
+				<a href="watchDocs/index.html">Docs</a>
 			   </p>
                
             </article>

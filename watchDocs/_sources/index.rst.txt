@@ -1,0 +1,41 @@
+.. UniversalWatch documentation master file, created by
+   sphinx-quickstart on Sun Feb 18 13:59:51 2018.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Universal Watch's documentation!
+==========================================
+.. _using:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents
+
+   tutorial
+   components
+   using
+   onwatch
+   templates
+
+
+
+Overview
+===================
+
+AllWatch (or UniversalWatch) is a project that aims to provide a unified way to make simple wearable applications for multiple devices. 
+It is both lightweight and easy to implement, effectively making it a reasonable way to gain access to applications for wearables running on propertiary OSs that either do not offer SDK or have a very limited
+base of dedicated applications. 
+
+Implementation depends entirely on the device, yet following the guidelines in this documentation should be enaugh to run every app ever made for this platform.
+
+The only requirement for the watch is to be able to parse JSON and have enough ram to store the data buffer. 30kb only for the buffer is the minimal recommended amount.
+
+
+
+Content
+==================
+
+* :ref:`Overview`
+* :ref:`Getting started`
+* :ref:`Using the library`
+* :ref:`Implementing on device`

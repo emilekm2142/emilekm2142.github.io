@@ -1,0 +1,79 @@
+Templates
+######################
+.. highlight:: javascript
+
+List
+^^^^^^^^^^^^^^
+
+.. code-block: javascript
+
+    {
+   "datatype":"list",
+   "templateName":"listView",
+   "layout":{
+      "absoluteWidth":160,
+      "x":0,
+      "y":0,
+      "content":[
+         {
+            "listTemplate":{
+               "type":"listItem",
+               "content":[
+                  {
+                     "type":"verticalLayout",
+                     "content":[
+                        {
+                           "type":"text",
+                           "id":"text1"
+                        },
+                        {
+                           "type":"text",
+                           "id":"text2"
+                        }
+                     ]
+                  }
+               ]
+            },
+            "listData":[
+               {
+                  "text1":{"text":"Lorem"},
+                  "text2":{"text":"Lorem"}
+               },
+               {
+                  "text1":{"text":"Lorem"},
+                  "text2":{"text":"Lorem"}
+               }
+            ],
+            "type":"verticalLayout"
+         }
+      ]
+    }
+    }
+
+
+.. code-block:: javascript
+
+    {
+    "datatype":"list",
+    "templateName":"listView",
+    "layout":{
+        "absoluteWidth":160,
+        "x":0,
+        "y":0,
+        "content":[
+            {
+                "listTemplate":"default",
+                "listData":[
+                {
+                    "text":{"text":"Lorem"}
+                    
+                },
+                {
+                    "text":{"text":"Lorem"}
+                }
+                ],
+                "type":"verticalLayout"
+            }
+        ]
+        }
+        }

@@ -1,0 +1,230 @@
+###################
+Notes application
+###################
+
+Welcome to the tutorial! We are going to make a simple note-taking application that integrates with the watch, allowing user to
+browse his notes on the watch.
+
+Installation
+=================
+TBD
+
+Boilerplate
+======================== 
+The library requires you to make a class and register a broadcast receiver. First, make a class that contains your application.
+It has to derive from `ApplicationRuntime`::
+
+    class NotesApplication:ApplicationRuntime(){
+        override fun makeApplication(context: Context): Application {
+            //make the app here
+        }
+    }
+
+.. highlight:: html
+next, find some cool name for your application. I think `Notes` is super cool! Add the following to the manifest::
+
+      <receiver android:name=".NotesApplication" android:exported="true">
+            <intent-filter>
+                <action android:name="your.package.UniversalWatch.Notes"></action>
+            </intent-filter>
+        </receiver>
+.. highlight:: kotlin
+
+.. warning::
+
+   remember to change your package name! Also, if your application name contains spaces, change them to underscores. For example instead of "Cool Notes", type "Cool_Notes"
+
+And that is the minimal setup!
+
+Actually an application
+======================
+As you might have already guessed, `makeApplication` should **return** an application. This function is needed for the library to know what you application is.
+The easiest option is just to make application there, like so: ::
+  class NotesApplication:ApplicationRuntime(){
+        override fun makeApplication(context: Context): Application {
+            val requirements = mutableListOf(Requirements.color)
+            return Application(context, "Notes", requirements, Uri.EMPTY)
+        }
+    }
+.. note::
+    the constructor for `Application` is:
+   .. py:function:: Application(context: Context, friendlyName:String, requirements: List<Requirements>, icon:Uri=Uri.EMPTY)
+
+.. note::
+    The application is just a single object, containing all the metadata. To send data to the watch, you call functions on this instance.
+    For example `app.showView()`, `app.install()`.
+
+Using this approach, you can access your instance **only** in `makeApplication`. It is better to have a singleton, so you can access the app from activities. It is a bit more complex though::
+
+    object SingletonNotesApp{
+        var wasInitialized=false
+        var app:Application?=null
+        fun createApplication(context: Context){
+            if (!SingletonNotesApp.wasInitialized) {
+                val requirements = mutableListOf(Requirements.color)
+                SingletonNotesApp.app = Application(context, "Notes", requirements, Uri.EMPTY)
+            }
+
+        }
+        fun getApplication(context: Context):Application{
+            if (SingletonNotesApp.wasInitialized){
+            }
+            else{
+                createApplication(context)
+            }
+            return app!!
+        }
+    }
+
+and now change makeApplication to: ::
+
+     override fun makeApplication(context: Context): Application {
+        if (SingletonNotesApp.wasInitialized) {
+        }
+        else{
+            SingletonNotesApp.createApplication(context)
+        }
+        return SingletonNotesApp.app!!
+    }
+
+.. note::
+    You don't have to do it this way if you don't need to access the `Application` instance from other classes.
+
+Views
+=============
+
+Views are the principal part of the library. Each view is an object of a class deriving from abstract `View`. There are a few
+pre-defined views covering many cases. These are universal ie. devices can display and interpret them in "native" way, unique to each model.
+Therefore you should mainly use these views. A list is available here :ref:`Pre-defined views` If you need something customized or fancy, use the templating system described here: :ref:`Using the templating system`
+
+Declaring a simple view goes as follows: ::
+
+    val actions = mutableListOf(Action({},"callbackStringName","A simple Action", "extras" ))
+    val view = TextView("view name", "big text", "small text",actions, onBack = {})
+
+As you noticed, we declare two variables here: a list of actions and the view itself. Each view can contain some actions. You can imagine action as a button, that does not necessary be a button.
+It is up to the device how to display the action, but the simplest and obvious way to think about it just a button. What we want to know is when the action was activated.
+In this example, the action does nothing, but it is really easy to change it. First argument is a lambda callback function taking one string argument: `extras`.
+It contains the last argument marked here as "extras". An example callback would look like this: ::
+
+    {extras ->
+        //do something useful
+    }
+
+The next confusing thing is a `onBack` callback. Here, you specify what should happen when the user wants to go back. Again, you can't be sure
+**how**. It works just like on Android. In most of the cases you want to display the
+preceeding screen, but the library does not track the screen history, so you have to take care of it yourself.
+
+But... what should you write if actual screen is the main view of the application? In such case, the library actually takes care of it. You have to specify this view as a inital view of the app ::
+
+    app.initialView = view
+
+To sum it up, let's now create a function that returns a screen containing a single note, with a button to delete that note! ::
+
+    fun getNoteView(context:Context, title:String, content:String, id:Int):TextView{
+        val actions = mutableListOf(Action(
+            {extras->
+                val deletedNoteId = extras.toInt()
+                deleteNote(deletedNoteId)
+            }, "delete", "delete", id.toString()));
+
+        val view = TextView("note", title, content, actions = actions, onBack = {
+            //go back to the listing
+        })
+        return view
+    }
+
+write it anywhere you want, but the SingletonNotesApp is a good place for that.
+
+.. note::
+    I do not declare the body of deleteNote() here.
+
+List view
+=====================
+
+Using the list view is as always a bit more complex. ListView needs a list of ListElements.List element needs a name, id, icon, extras and a list of actions.
+Only name and id are required though. In our case we can declare a ListElement like so: ::
+
+    val elem = ListElement("note title", noteId, extras = noteId.toString() )
+    val list = mutableListOf(elem)
+
+It works similarly to actions. On each `click`, a callback with `extras` is called. Now, to make a list itself: ::
+
+    val listView = ListView("notesList", list, clickable = true, onBack = {})
+    //setting callback
+    listView.onClick = {content:Context, id:Int, extras:String->
+        //do something
+
+    }
+
+We have now all the needed views declared. The flow is listView->note view, so onBack in note view should route the user **back** to listView. How do we do that?
+The best aproach is to make a function that returns a listView and call it onBack of note view. Declare the following function in singleton: ::
+
+    fun getListView(context:Context):ListView{
+        val elem = ListElement("note title", noteId, extras = noteId.toString() )
+        val list = mutableListOf(elem)
+        val listView = ListView("notesList", list, clickable = true, onBack = {})
+        //setting callback
+        listView.onClick = {content:Context, id:Int, extras:String->
+            //what should happen on click?
+            val notesView = getNoteView(context, "note title", "note body", id) 
+            //and what now?
+        }
+        return listView
+    }
+
+But how do we actually **send** something? 
+
+Sending the data
+========================
+Now, when we have both views and application declared, we can get this thing running. To display something on the watch, call app.showView(context, view), in our case: ::
+
+    SingletonNotesApp.getApplication().showView(context, yourView)
+
+In notesView, change the onBack callback to: ::
+
+    onBack = {s-> 
+        //s is the current screen's name
+        val app = SingletonNotesApp.getApplication()
+        listView = getListView(context,app)
+        app.showView(context, listView)
+    }
+
+The only thing we are missing now is sending the initial view. There are two ways to do so. If our view is `static` , you can just use initialView = yourView.
+In our case, listView is not static because we want to load the notes from database of some kind. It is better to override the onOpen function. Add this to `createApplication` in singleton object: ::
+
+    SingletonNotesApp.app.onOpen = {context, incomingJson -> 
+        SingletonNotesApp.app.showView(context, getListView(context))
+    }
+
+You can send a view from any activity thanks to having the app in singleton. The default behavior is to show a view **only if** the application is currently opened on the watch. If you want to open your view ignoring that rule, add the `forceShow=true` to arguments in `showView`.
+Use with caution though.
+
+Summary
+================================
+
+You should now have a grasp of working with the library.
+You can see more examples in the :ref:`Examples` section.
+
+
+Appendix: Receiving the data
+========================
+
+
+If you want to make sure that the view was displayed correctly, you can receive the status from the watch with: ::
+
+    val response:JSONObject = app.showView(context, view, shouldReturn=true)
+
+However, this will lock the thread until a response is received or time is out (2 seconds by default). Bluetooth communication takes some time. The library makes things **synchronious**. To solve this issue use kotlin's great coroutines. ::
+
+    launch{
+        val response:JSONObject = app.showView(context, view, shouldReturn=true)
+    }
+
+and now we go async! You can read more about that in kotlin's docs.
+
+Appendix: More callbacks!
+=============================
+Each view has object named `systemCallbacks` that contains `onBack`, `onNext`, `onPrev` ready to be overriden.
+onNext and onPrev events are meant to work as swyping to the left or right. But again, it is up to the watch how to implement that. You can only handle the event.
+In our case, onNext could load next note without the need to go back to the listView. 

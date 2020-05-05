@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Implementing on device &mdash; UniversalWatch 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Templates" href="templates.html" />
+    <link rel="prev" title="Using the library" href="using.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> UniversalWatch
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials and guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using.html">Using the library</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Implementing on device</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#handshake">Handshake</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config">Config</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#application">Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-request">Data Request</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#from-watch-to-phone">From watch to phone</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#applicationinitialscreen">applicationInitialScreen</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-request-response">Data request response</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#action">Action</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Templates</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UniversalWatch</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Implementing on device</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/onwatch.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="implementing-on-device">
+<h1>Implementing on device<a class="headerlink" href="#implementing-on-device" title="Permalink to this headline">¶</a></h1>
+<p>In general, every message has two fields: <cite>type</cite> and <cite>data</cite>. Types are written in camelCase. All the commands that the watch has to understand to be compatibile are listed below.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#handshake"><span class="std std-ref">Handshake</span></a></li>
+</ul>
+<div class="section" id="handshake">
+<h2>Handshake<a class="headerlink" href="#handshake" title="Permalink to this headline">¶</a></h2>
+<p>This command is sent from phone to the watch without any data upon a sucessful connection. Watch should send a response with it’s details as a response.</p>
+<div class="highlight-JSON"><div class="highlight"><pre><span></span>{
+    &quot;type&quot;:&quot;handshake&quot;,
+    &quot;data&quot;:{
+            //config file
+    }
+}
+</pre></div>
+</div>
+<div class="section" id="config">
+<h3>Config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h3>
+<p>Each watch has it’s properties such as screen, buttons, resolution and so on. These should be sent with the handhsake in the <cite>data</cite> field.
+Available keys for json are the following (not included boolean fields are assumed to be false):</p>
+<ul>
+<li><p class="first">string manufacturer</p>
+</li>
+<li><p class="first">string modelName</p>
+</li>
+<li><p class="first">string extraModelInfo</p>
+</li>
+<li><p class="first">string firmwareVersion</p>
+</li>
+<li><p class="first">int bufferKbSize - indicates the size of the buffer on the device. If it is dynamic and larger than 1mb, this field should be either ommited or filled with a large number.</p>
+</li>
+<li><p class="first">bool <cite>usesEncryption</cite> = [ false|true ] - whether the watch can encrypt and decrypt messages with a RSA alogrithm</p>
+</li>
+<li><p class="first">list of strings <cite>availableRequirements</cite> - some applications might require a certain feature to be available. Treat these as tags of your watch. The list should consist of these string values</p>
+<blockquote>
+<div><ul class="simple">
+<li>colors - colorful display?</li>
+<li>touchscreen</li>
+<li>buttons</li>
+<li>images</li>
+<li>speech</li>
+<li>sound</li>
+<li>gps</li>
+<li>unicode - utf-8</li>
+<li>maps</li>
+<li>browser</li>
+<li>gyro</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>An example handshake sent from watch could look like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;handshake&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="o">:</span><span class="p">{</span>
+            <span class="s2">&quot;manufacturer&quot;</span><span class="o">:</span><span class="s2">&quot;Cool watches inc&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;modelName&quot;</span><span class="o">:</span><span class="s2">&quot;Rolexxxx 2000&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;firmwareVersion&quot;</span><span class="o">:</span> <span class="mf">0.75</span><span class="p">,</span>
+            <span class="s2">&quot;usesEncryption&quot;</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span>
+            <span class="s2">&quot;bufferKbSize&quot;</span><span class="o">:</span><span class="mi">40</span><span class="p">,</span>
+            <span class="s2">&quot;availableRequirements&quot;</span><span class="o">:</span><span class="p">[</span>
+                <span class="s2">&quot;colors&quot;</span><span class="p">,</span> <span class="s2">&quot;buttons&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maps&quot;</span>
+            <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="application">
+<h2>Application<a class="headerlink" href="#application" title="Permalink to this headline">¶</a></h2>
+<p>This message is sent from the phone to the watch everytime a application is started or installed.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;application&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="o">:</span><span class="p">{</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>bool <cite>reinstall</cite> - true if application should be updated or reinstalled</li>
+<li>string <cite>package</cite> - the android package from which the message was sent. Usually something like com.xxxxxx.yyyy</li>
+<li>string <cite>name</cite> - the name of the application displayed on the watch</li>
+<li>string <cite>icon</cite> - base64 encoded jpg icon</li>
+<li>list of strings <cite>requirements</cite> see <a class="reference internal" href="#handshake"><span class="std std-ref">Handshake</span></a></li>
+<li>list of strings <cite>voicePhrases</cite> - phrases that the application uses. Applied only if speech is supported</li>
+<li>object widget - to be added in future versions. Basically a widget is a small icon just like tiles from windows that are refreshed every X seconds.</li>
+</ul>
+</div>
+<div class="section" id="data-request">
+<h2>Data Request<a class="headerlink" href="#data-request" title="Permalink to this headline">¶</a></h2>
+<p>This message is sent everytime a phone or watch wants to receive some data from each other. Most of these requests should send a :<span class="xref std std-ref">dataRequestResponse</span>.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;dataRequest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="o">:</span><span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;applicationInitialScreen&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;package&quot;</span><span class="o">:</span><span class="s2">&quot;notes&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;friendlyName&quot;</span><span class="o">:</span><span class="s2">&quot;notes&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>each subtype has it’s own properties explained below.</p>
+<div class="section" id="from-watch-to-phone">
+<h3>From watch to phone<a class="headerlink" href="#from-watch-to-phone" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="applicationinitialscreen">
+<h4>applicationInitialScreen<a class="headerlink" href="#applicationinitialscreen" title="Permalink to this headline">¶</a></h4>
+<p>This request is sent everytime an application is opened. Properties:
+<a href="#id1"><span class="problematic" id="id2">*</span></a>string package - the sender android package
+<a href="#id3"><span class="problematic" id="id4">*</span></a>string friendlyName - the sender application friendlyName. It is there in case there were multiple watch apps in one package.
+example:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span>    <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;dataRequest&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="o">:</span><span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;applicationInitialScreen&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;package&quot;</span><span class="o">:</span><span class="s2">&quot;io.notes.inc&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;friendlyName&quot;</span><span class="o">:</span><span class="s2">&quot;notes&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Response: a <span class="xref std std-ref">View</span> document</p>
+</div>
+</div>
+</div>
+<div class="section" id="data-request-response">
+<h2>Data request response<a class="headerlink" href="#data-request-response" title="Permalink to this headline">¶</a></h2>
+<p>An answer to requests above. Each request comes with a specification of what should be sent in the response. See :<a class="reference internal" href="#data-request"><span class="std std-ref">Data Request</span></a>.</p>
+<p>An example:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;dataRequestResponse&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="o">:</span><span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;openedApps&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;apps&quot;</span><span class="o">:</span><span class="p">[</span><span class="s2">&quot;testowa&quot;</span><span class="p">,</span><span class="s2">&quot;dupa&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;package&quot;</span><span class="o">:</span><span class="s2">&quot;notes&quot;</span>
+<span class="p">}}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="action">
+<h2>Action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h2>
+<p>This message is sent from watch to phone everytime an action is activated. For description of what an Action exactly is, see <a class="reference internal" href="components.html#actions"><span class="std std-ref">Actions</span></a></p>
+<p>example:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;action&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;targetPackage&quot;</span><span class="o">:</span><span class="s2">&quot;com.asofkaosfa&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;friendlyName&quot;</span><span class="o">:</span><span class="s2">&quot;notes_app&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="o">:</span><span class="p">{</span>
+        <span class="s2">&quot;callbackName&quot;</span><span class="o">:</span><span class="s2">&quot;callback&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="s2">&quot;dadsda&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;extras&quot;</span><span class="o">:</span><span class="s2">&quot;asafsa&quot;</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="templates.html" class="btn btn-neutral float-right" title="Templates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="using.html" class="btn btn-neutral" title="Using the library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Emile.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

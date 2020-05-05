@@ -1,0 +1,472 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Notes application &mdash; UniversalWatch 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Getting started" href="stopwatch.html" />
+    <link rel="prev" title="Tutorials and guides" href="../tutorial.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> UniversalWatch
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorials and guides</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Notes application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boilerplate">Boilerplate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#actually-an-application">Actually an application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#views">Views</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#list-view">List view</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sending-the-data">Sending the data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#appendix-receiving-the-data">Appendix: Receiving the data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#appendix-more-callbacks">Appendix: More callbacks!</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stopwatch.html">Getting started</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../components.html">Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using.html">Using the library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../onwatch.html">Implementing on device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templates.html">Templates</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UniversalWatch</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tutorial.html">Tutorials and guides</a> &raquo;</li>
+        
+      <li>Notes application</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/notes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="notes-application">
+<h1>Notes application<a class="headerlink" href="#notes-application" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the tutorial! We are going to make a simple note-taking application that integrates with the watch, allowing user to
+browse his notes on the watch.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>TBD</p>
+</div>
+<div class="section" id="boilerplate">
+<h2>Boilerplate<a class="headerlink" href="#boilerplate" title="Permalink to this headline">¶</a></h2>
+<p>The library requires you to make a class and register a broadcast receiver. First, make a class that contains your application.
+It has to derive from <cite>ApplicationRuntime</cite>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NotesApplication</span><span class="p">:</span><span class="n">ApplicationRuntime</span><span class="p">(){</span>
+    <span class="n">override</span> <span class="n">fun</span> <span class="n">makeApplication</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span> <span class="n">Application</span> <span class="p">{</span>
+        <span class="o">//</span><span class="n">make</span> <span class="n">the</span> <span class="n">app</span> <span class="n">here</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>next, find some cool name for your application. I think <cite>Notes</cite> is super cool! Add the following to the manifest:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">receiver</span> <span class="na">android:name</span><span class="o">=</span><span class="s">&quot;.NotesApplication&quot;</span> <span class="na">android:exported</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">intent-filter</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">action</span> <span class="na">android:name</span><span class="o">=</span><span class="s">&quot;your.package.UniversalWatch.Notes&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">action</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">intent-filter</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">receiver</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">remember to change your package name! Also, if your application name contains spaces, change them to underscores. For example instead of “Cool Notes”, type “Cool_Notes”</p>
+</div>
+<p>And that is the minimal setup!</p>
+</div>
+<div class="section" id="actually-an-application">
+<h2>Actually an application<a class="headerlink" href="#actually-an-application" title="Permalink to this headline">¶</a></h2>
+<p>As you might have already guessed, <cite>makeApplication</cite> should <strong>return</strong> an application. This function is needed for the library to know what you application is.
+The easiest option is just to make application there, like so:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NotesApplication</span><span class="p">:</span><span class="n">ApplicationRuntime</span><span class="p">(){</span>
+      <span class="k">override</span> <span class="k">fun</span> <span class="nf">makeApplication</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span> <span class="n">Application</span> <span class="p">{</span>
+          <span class="k">val</span> <span class="py">requirements</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">(</span><span class="n">Requirements</span><span class="p">.</span><span class="n">color</span><span class="p">)</span>
+          <span class="k">return</span> <span class="n">Application</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s">&quot;Notes&quot;</span><span class="p">,</span> <span class="n">requirements</span><span class="p">,</span> <span class="n">Uri</span><span class="p">.</span><span class="n">EMPTY</span><span class="p">)</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<blockquote>
+<div>the constructor for <cite>Application</cite> is:</div></blockquote>
+<dl class="last function">
+<dt id="Application">
+<code class="descname">Application</code><span class="sig-paren">(</span><em>context: Context</em>, <em>friendlyName:String</em>, <em>requirements: List&lt;Requirements&gt;</em>, <em>icon:Uri=Uri.EMPTY</em><span class="sig-paren">)</span><a class="headerlink" href="#Application" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The application is just a single object, containing all the metadata. To send data to the watch, you call functions on this instance.
+For example <cite>app.showView()</cite>, <cite>app.install()</cite>.</p>
+</div>
+<p>Using this approach, you can access your instance <strong>only</strong> in <cite>makeApplication</cite>. It is better to have a singleton, so you can access the app from activities. It is a bit more complex though:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">SingletonNotesApp</span><span class="p">{</span>
+    <span class="k">var</span> <span class="py">wasInitialized</span><span class="p">=</span><span class="k">false</span>
+    <span class="k">var</span> <span class="py">app</span><span class="p">:</span><span class="n">Application</span><span class="p">?=</span><span class="k">null</span>
+    <span class="k">fun</span> <span class="nf">createApplication</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(!</span><span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">wasInitialized</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">val</span> <span class="py">requirements</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">(</span><span class="n">Requirements</span><span class="p">.</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">app</span> <span class="p">=</span> <span class="n">Application</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s">&quot;Notes&quot;</span><span class="p">,</span> <span class="n">requirements</span><span class="p">,</span> <span class="n">Uri</span><span class="p">.</span><span class="n">EMPTY</span><span class="p">)</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+    <span class="k">fun</span> <span class="nf">getApplication</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span><span class="n">Application</span><span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">wasInitialized</span><span class="p">){</span>
+        <span class="p">}</span>
+        <span class="k">else</span><span class="p">{</span>
+            <span class="n">createApplication</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">app</span><span class="o">!!</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and now change makeApplication to:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span> <span class="k">override</span> <span class="k">fun</span> <span class="nf">makeApplication</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span> <span class="n">Application</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">wasInitialized</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="k">else</span><span class="p">{</span>
+        <span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">createApplication</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">app</span><span class="o">!!</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You don’t have to do it this way if you don’t need to access the <cite>Application</cite> instance from other classes.</p>
+</div>
+</div>
+<div class="section" id="views">
+<h2>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h2>
+<p>Views are the principal part of the library. Each view is an object of a class deriving from abstract <cite>View</cite>. There are a few
+pre-defined views covering many cases. These are universal ie. devices can display and interpret them in “native” way, unique to each model.
+Therefore you should mainly use these views. A list is available here <span class="xref std std-ref">Pre-defined views</span> If you need something customized or fancy, use the templating system described here: <span class="xref std std-ref">Using the templating system</span></p>
+<p>Declaring a simple view goes as follows:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="py">actions</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">(</span><span class="n">Action</span><span class="p">({},</span><span class="s">&quot;callbackStringName&quot;</span><span class="p">,</span><span class="s">&quot;A simple Action&quot;</span><span class="p">,</span> <span class="s">&quot;extras&quot;</span> <span class="p">))</span>
+<span class="k">val</span> <span class="py">view</span> <span class="p">=</span> <span class="n">TextView</span><span class="p">(</span><span class="s">&quot;view name&quot;</span><span class="p">,</span> <span class="s">&quot;big text&quot;</span><span class="p">,</span> <span class="s">&quot;small text&quot;</span><span class="p">,</span><span class="n">actions</span><span class="p">,</span> <span class="n">onBack</span> <span class="p">=</span> <span class="p">{})</span>
+</pre></div>
+</div>
+<p>As you noticed, we declare two variables here: a list of actions and the view itself. Each view can contain some actions. You can imagine action as a button, that does not necessary be a button.
+It is up to the device how to display the action, but the simplest and obvious way to think about it just a button. What we want to know is when the action was activated.
+In this example, the action does nothing, but it is really easy to change it. First argument is a lambda callback function taking one string argument: <cite>extras</cite>.
+It contains the last argument marked here as “extras”. An example callback would look like this:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">extras</span> <span class="p">-&gt;</span>
+    <span class="c1">//do something useful</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The next confusing thing is a <cite>onBack</cite> callback. Here, you specify what should happen when the user wants to go back. Again, you can’t be sure
+<strong>how</strong>. It works just like on Android. In most of the cases you want to display the
+preceeding screen, but the library does not track the screen history, so you have to take care of it yourself.</p>
+<p>But… what should you write if actual screen is the main view of the application? In such case, the library actually takes care of it. You have to specify this view as a inital view of the app</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="n">app</span><span class="p">.</span><span class="n">initialView</span> <span class="p">=</span> <span class="n">view</span>
+</pre></div>
+</div>
+<p>To sum it up, let’s now create a function that returns a screen containing a single note, with a button to delete that note!</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="k">fun</span> <span class="nf">getNoteView</span><span class="p">(</span><span class="n">context</span><span class="p">:</span><span class="n">Context</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span><span class="n">String</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span><span class="n">String</span><span class="p">,</span> <span class="n">id</span><span class="p">:</span><span class="n">Int</span><span class="p">):</span><span class="n">TextView</span><span class="p">{</span>
+    <span class="k">val</span> <span class="py">actions</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">(</span><span class="n">Action</span><span class="p">(</span>
+        <span class="p">{</span><span class="n">extras</span><span class="p">-&gt;</span>
+            <span class="k">val</span> <span class="py">deletedNoteId</span> <span class="p">=</span> <span class="n">extras</span><span class="p">.</span><span class="n">toInt</span><span class="p">()</span>
+            <span class="n">deleteNote</span><span class="p">(</span><span class="n">deletedNoteId</span><span class="p">)</span>
+        <span class="p">},</span> <span class="s">&quot;delete&quot;</span><span class="p">,</span> <span class="s">&quot;delete&quot;</span><span class="p">,</span> <span class="n">id</span><span class="p">.</span><span class="n">toString</span><span class="p">()));</span>
+
+    <span class="k">val</span> <span class="py">view</span> <span class="p">=</span> <span class="n">TextView</span><span class="p">(</span><span class="s">&quot;note&quot;</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">actions</span> <span class="p">=</span> <span class="n">actions</span><span class="p">,</span> <span class="n">onBack</span> <span class="p">=</span> <span class="p">{</span>
+        <span class="c1">//go back to the listing</span>
+    <span class="p">})</span>
+    <span class="k">return</span> <span class="n">view</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>write it anywhere you want, but the SingletonNotesApp is a good place for that.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">I do not declare the body of deleteNote() here.</p>
+</div>
+</div>
+<div class="section" id="list-view">
+<h2>List view<a class="headerlink" href="#list-view" title="Permalink to this headline">¶</a></h2>
+<p>Using the list view is as always a bit more complex. ListView needs a list of ListElements.List element needs a name, id, icon, extras and a list of actions.
+Only name and id are required though. In our case we can declare a ListElement like so:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="py">elem</span> <span class="p">=</span> <span class="n">ListElement</span><span class="p">(</span><span class="s">&quot;note title&quot;</span><span class="p">,</span> <span class="n">noteId</span><span class="p">,</span> <span class="n">extras</span> <span class="p">=</span> <span class="n">noteId</span><span class="p">.</span><span class="n">toString</span><span class="p">()</span> <span class="p">)</span>
+<span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It works similarly to actions. On each <cite>click</cite>, a callback with <cite>extras</cite> is called. Now, to make a list itself:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="py">listView</span> <span class="p">=</span> <span class="n">ListView</span><span class="p">(</span><span class="s">&quot;notesList&quot;</span><span class="p">,</span> <span class="n">list</span><span class="p">,</span> <span class="n">clickable</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">onBack</span> <span class="p">=</span> <span class="p">{})</span>
+<span class="c1">//setting callback</span>
+<span class="n">listView</span><span class="p">.</span><span class="n">onClick</span> <span class="p">=</span> <span class="p">{</span><span class="n">content</span><span class="p">:</span><span class="n">Context</span><span class="p">,</span> <span class="n">id</span><span class="p">:</span><span class="n">Int</span><span class="p">,</span> <span class="n">extras</span><span class="p">:</span><span class="n">String</span><span class="p">-&gt;</span>
+    <span class="c1">//do something</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We have now all the needed views declared. The flow is listView-&gt;note view, so onBack in note view should route the user <strong>back</strong> to listView. How do we do that?
+The best aproach is to make a function that returns a listView and call it onBack of note view. Declare the following function in singleton:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="k">fun</span> <span class="nf">getListView</span><span class="p">(</span><span class="n">context</span><span class="p">:</span><span class="n">Context</span><span class="p">):</span><span class="n">ListView</span><span class="p">{</span>
+    <span class="k">val</span> <span class="py">elem</span> <span class="p">=</span> <span class="n">ListElement</span><span class="p">(</span><span class="s">&quot;note title&quot;</span><span class="p">,</span> <span class="n">noteId</span><span class="p">,</span> <span class="n">extras</span> <span class="p">=</span> <span class="n">noteId</span><span class="p">.</span><span class="n">toString</span><span class="p">()</span> <span class="p">)</span>
+    <span class="k">val</span> <span class="py">list</span> <span class="p">=</span> <span class="n">mutableListOf</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+    <span class="k">val</span> <span class="py">listView</span> <span class="p">=</span> <span class="n">ListView</span><span class="p">(</span><span class="s">&quot;notesList&quot;</span><span class="p">,</span> <span class="n">list</span><span class="p">,</span> <span class="n">clickable</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">onBack</span> <span class="p">=</span> <span class="p">{})</span>
+    <span class="c1">//setting callback</span>
+    <span class="n">listView</span><span class="p">.</span><span class="n">onClick</span> <span class="p">=</span> <span class="p">{</span><span class="n">content</span><span class="p">:</span><span class="n">Context</span><span class="p">,</span> <span class="n">id</span><span class="p">:</span><span class="n">Int</span><span class="p">,</span> <span class="n">extras</span><span class="p">:</span><span class="n">String</span><span class="p">-&gt;</span>
+        <span class="c1">//what should happen on click?</span>
+        <span class="k">val</span> <span class="py">notesView</span> <span class="p">=</span> <span class="n">getNoteView</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s">&quot;note title&quot;</span><span class="p">,</span> <span class="s">&quot;note body&quot;</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+        <span class="c1">//and what now?</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">listView</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>But how do we actually <strong>send</strong> something?</p>
+</div>
+<div class="section" id="sending-the-data">
+<h2>Sending the data<a class="headerlink" href="#sending-the-data" title="Permalink to this headline">¶</a></h2>
+<p>Now, when we have both views and application declared, we can get this thing running. To display something on the watch, call app.showView(context, view), in our case:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">getApplication</span><span class="p">().</span><span class="n">showView</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">yourView</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In notesView, change the onBack callback to:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="n">onBack</span> <span class="p">=</span> <span class="p">{</span><span class="n">s</span><span class="p">-&gt;</span>
+    <span class="c1">//s is the current screen&#39;s name</span>
+    <span class="k">val</span> <span class="py">app</span> <span class="p">=</span> <span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">getApplication</span><span class="p">()</span>
+    <span class="n">listView</span> <span class="p">=</span> <span class="n">getListView</span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="n">app</span><span class="p">)</span>
+    <span class="n">app</span><span class="p">.</span><span class="n">showView</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">listView</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The only thing we are missing now is sending the initial view. There are two ways to do so. If our view is <cite>static</cite> , you can just use initialView = yourView.
+In our case, listView is not static because we want to load the notes from database of some kind. It is better to override the onOpen function. Add this to <cite>createApplication</cite> in singleton object:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">onOpen</span> <span class="p">=</span> <span class="p">{</span><span class="n">context</span><span class="p">,</span> <span class="n">incomingJson</span> <span class="p">-&gt;</span>
+    <span class="n">SingletonNotesApp</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">showView</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">getListView</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You can send a view from any activity thanks to having the app in singleton. The default behavior is to show a view <strong>only if</strong> the application is currently opened on the watch. If you want to open your view ignoring that rule, add the <cite>forceShow=true</cite> to arguments in <cite>showView</cite>.
+Use with caution though.</p>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>You should now have a grasp of working with the library.
+You can see more examples in the <span class="xref std std-ref">Examples</span> section.</p>
+</div>
+<div class="section" id="appendix-receiving-the-data">
+<h2>Appendix: Receiving the data<a class="headerlink" href="#appendix-receiving-the-data" title="Permalink to this headline">¶</a></h2>
+<p>If you want to make sure that the view was displayed correctly, you can receive the status from the watch with:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="py">response</span><span class="p">:</span><span class="n">JSONObject</span> <span class="p">=</span> <span class="n">app</span><span class="p">.</span><span class="n">showView</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="n">shouldReturn</span><span class="p">=</span><span class="k">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, this will lock the thread until a response is received or time is out (2 seconds by default). Bluetooth communication takes some time. The library makes things <strong>synchronious</strong>. To solve this issue use kotlin’s great coroutines.</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span></span><span class="n">launch</span><span class="p">{</span>
+    <span class="k">val</span> <span class="py">response</span><span class="p">:</span><span class="n">JSONObject</span> <span class="p">=</span> <span class="n">app</span><span class="p">.</span><span class="n">showView</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="n">shouldReturn</span><span class="p">=</span><span class="k">true</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and now we go async! You can read more about that in kotlin’s docs.</p>
+</div>
+<div class="section" id="appendix-more-callbacks">
+<h2>Appendix: More callbacks!<a class="headerlink" href="#appendix-more-callbacks" title="Permalink to this headline">¶</a></h2>
+<p>Each view has object named <cite>systemCallbacks</cite> that contains <cite>onBack</cite>, <cite>onNext</cite>, <cite>onPrev</cite> ready to be overriden.
+onNext and onPrev events are meant to work as swyping to the left or right. But again, it is up to the watch how to implement that. You can only handle the event.
+In our case, onNext could load next note without the need to go back to the listView.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="stopwatch.html" class="btn btn-neutral float-right" title="Getting started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../tutorial.html" class="btn btn-neutral" title="Tutorials and guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Emile.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+.. highlight:: javascript
+
+###################
+Implementing on device
+###################
+
+In general, every message has two fields: `type` and `data`. Types are written in camelCase. All the commands that the watch has to understand to be compatibile are listed below.
+
+* :ref:`Handshake`
+
+Handshake
+=================
+This command is sent from phone to the watch without any data upon a sucessful connection. Watch should send a response with it's details as a response.
+
+.. code-block:: JSON
+
+    {
+        "type":"handshake",
+        "data":{
+                //config file
+        }
+    }
+
+Config
+^^^^^^^^^^^^^^^^
+Each watch has it's properties such as screen, buttons, resolution and so on. These should be sent with the handhsake in the `data` field.
+Available keys for json are the following (not included boolean fields are assumed to be false):
+
+* string manufacturer
+* string modelName
+* string extraModelInfo
+* string firmwareVersion
+* int bufferKbSize - indicates the size of the buffer on the device. If it is dynamic and larger than 1mb, this field should be either ommited or filled with a large number.
+* bool `usesEncryption` = [ false|true ] - whether the watch can encrypt and decrypt messages with a RSA alogrithm
+* list of strings `availableRequirements` - some applications might require a certain feature to be available. Treat these as tags of your watch. The list should consist of these string values
+    
+    - colors - colorful display?
+    - touchscreen
+    - buttons
+    - images
+    - speech
+    - sound
+    - gps
+    - unicode - utf-8
+    - maps
+    - browser
+    - gyro
+An example handshake sent from watch could look like this::
+
+    {
+        "type":"handshake",
+        "data":{
+                "manufacturer":"Cool watches inc",
+                "modelName":"Rolexxxx 2000",
+                "firmwareVersion": 0.75,
+                "usesEncryption":false,
+                "bufferKbSize":40,
+                "availableRequirements":[
+                    "colors", "buttons", "images", "maps"
+                ]
+        }
+    }
+
+Application
+====================
+This message is sent from the phone to the watch everytime a application is started or installed.
+
+.. code-block:: javascript
+    
+    {
+        "type":"application",
+        "data":{
+
+        }
+    }
+
+* bool `reinstall` - true if application should be updated or reinstalled
+* string `package` - the android package from which the message was sent. Usually something like com.xxxxxx.yyyy
+* string `name` - the name of the application displayed on the watch
+* string `icon` - base64 encoded jpg icon
+* list of strings `requirements` see :ref:`Handshake`
+* list of strings `voicePhrases` - phrases that the application uses. Applied only if speech is supported
+* object widget - to be added in future versions. Basically a widget is a small icon just like tiles from windows that are refreshed every X seconds.
+
+
+Data Request
+=============================
+This message is sent everytime a phone or watch wants to receive some data from each other. Most of these requests should send a ::ref:`dataRequestResponse`.
+
+.. code-block:: javascript
+    
+    {
+        "type":"dataRequest",
+        "data":{
+            "type":"applicationInitialScreen",
+            "package":"notes",
+            "friendlyName":"notes"
+    }
+
+each subtype has it's own properties explained below.
+
+
+
+From watch to phone
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+applicationInitialScreen
+-----------------------------------------
+This request is sent everytime an application is opened. Properties: 
+*string package - the sender android package
+*string friendlyName - the sender application friendlyName. It is there in case there were multiple watch apps in one package.
+example:
+
+.. code-block:: javascript
+    
+        {
+            "type":"dataRequest",
+            "data":{
+                "type":"applicationInitialScreen",
+                "package":"io.notes.inc",
+                "friendlyName":"notes"
+    }
+
+Response: a :ref:`View` document
+
+
+Data request response
+========================================
+An answer to requests above. Each request comes with a specification of what should be sent in the response. See ::ref:`Data Request`.
+
+An example:
+
+.. code-block:: javascript
+    
+    {
+        "type":"dataRequestResponse",
+        "data":{
+            "type":"openedApps",
+            "apps":["testowa","dupa"],
+            "package":"notes"
+    }}
+
+Action
+=======================
+This message is sent from watch to phone everytime an action is activated. For description of what an Action exactly is, see :ref:`Actions`
+
+example:
+
+.. code-block:: javascript
+    
+    {
+        "type":"action",
+        "targetPackage":"com.asofkaosfa",
+        "friendlyName":"notes_app",
+        "data":{
+            "callbackName":"callback",
+            "name":"dadsda",
+            "extras":"asafsa"
+        
+        }
+    }
