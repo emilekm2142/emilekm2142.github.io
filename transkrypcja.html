@@ -1,0 +1,108 @@
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="fonts.css">
+<style>
+html{
+font-family:'CMU Serif Roman';font-weight:normal;
+text-align:justify;
+}
+body{
+max-width:1000px;
+width:90%;
+margin:auto;
+}
+</style>
+</head>
+<body>
+<h2>
+Jak zrobić transkrypcję wykładu?
+</h2>
+<p>
+<pre>
+<h3>
+Transkrypcja.py
+</h3>
+<code>
+#trzeba zmienić język i nazwę pliku
+import whisper
+
+def transcribe_audio(audio_path, output_path):
+    model = whisper.load_model("turbo")
+    result = model.transcribe(audio_path, language="pl")
+    
+    with open(output_path, "w", encoding="utf-8") as file:
+        file.write(result["text"])
+
+# Example usage
+audio_path = "nagranie.wav"
+output_path = "transcribed_text.txt"
+transcribe_audio(audio_path, output_path)
+</code>
+<h3>
+reformat.py
+</h3>
+<code>
+from openai import OpenAI
+import os
+
+# Ustaw zmienną środowiskową
+api_key = ""
+
+# Ustaw swój klucz API OpenAI
+client =OpenAI(api_key=api_key)
+
+def split_into_chunks(text, max_tokens):
+    """Dzieli tekst na części o maksymalnej liczbie tokenów."""
+    words = text.split()
+    chunks = []
+    current_chunk = []
+
+    for word in words:
+        current_chunk.append(word)
+        if len(" ".join(current_chunk)) >= max_tokens:
+            chunks.append(" ".join(current_chunk))
+            current_chunk = []
+    
+    # Dodaj pozostałe słowa
+    if current_chunk:
+        chunks.append(" ".join(current_chunk))
+    
+    return chunks
+
+def process_file(file_path, max_tokens):
+    """Procesuje plik tekstowy i wysyła części do API."""
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
+    # Dziel tekst na części
+    chunks = split_into_chunks(content, max_tokens)
+    responses = []
+
+    for chunk in chunks:
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "To transkrypcja nagrania z wykładu. Popraw błędy transkrypcji."},
+                    {"role": "user", "content": chunk}
+                ]
+            )
+            responses.append(response.choices[0].message.content)
+        except Exception as e:
+            print(f"Błąd podczas przetwarzania chunku: {e}")
+    
+    return responses
+
+if __name__ == "__main__":
+    file_path = "transcribed_text.txt"  # Ścieżka do pliku tekstowego
+    max_tokens = 5000  # Maksymalna liczba tokenów na chunk
+    responses = process_file(file_path, max_tokens)
+
+    # Wyświetl odpowiedzi
+    print(''.join(responses))
+    with open("fixed.txt", 'w', encoding="utf-8") as f:
+        f.write(''.join(responses))
+</code>
+</pre>
+</p>
